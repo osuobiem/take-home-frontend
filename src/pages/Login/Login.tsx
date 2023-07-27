@@ -37,9 +37,7 @@ export const Login = () => {
           password,
         },
         {
-          onSuccess: (data) => {
-            console.log(data);
-          },
+          onSuccess: () => location.assign("/"),
           onError: (error) => setReqError(error.message),
         }
       );
