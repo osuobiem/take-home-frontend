@@ -15,6 +15,8 @@ export const login = async (email: string, password: string) => {
     return await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
     console.log(error);
-    throw new Error(error || {message: "Something went wrong, try again"});
+
+    // @ts-ignore
+    throw new Error(error || "Something went wrong, try again");
   }
 };

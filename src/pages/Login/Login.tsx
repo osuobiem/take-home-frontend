@@ -38,7 +38,10 @@ export const Login = () => {
         },
         {
           onSuccess: () => location.assign("/"),
-          onError: (error) => setReqError(error.message),
+          onError: (error) => {
+            // @ts-ignore
+            setReqError(error.message);
+          },
         }
       );
     }
