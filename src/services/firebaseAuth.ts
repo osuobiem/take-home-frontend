@@ -8,15 +8,8 @@ const app = initializeApp({
   appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
 });
 
-export const login = (email: string, password: string) => {
+export const login = async (email: string, password: string) => {
   const auth = getAuth(app);
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.error(err);
-      throw new Error(err.message);
-    });
+  return await signInWithEmailAndPassword(auth, email, password);
 };
