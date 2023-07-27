@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 export const Button = styled.button`
   background: #7856ff;
-  border-radius: 8px;
-  padding: 8px 16px;
+  border-radius: 16px;
+  padding: 16px 24px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   transition: 0.3s;
   display: inline-flex;
   align-items: center;
