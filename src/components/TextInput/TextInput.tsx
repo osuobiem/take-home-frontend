@@ -1,3 +1,4 @@
+import {InputHTMLAttributes} from "react";
 import {randomID} from "../../utils";
 import * as S from "./TextInput.style";
 
@@ -5,7 +6,6 @@ type PropsType = {
   type?: "text" | "number" | "email" | "password";
   label?: string;
   error?: string;
-  placeholder?: string;
 };
 
 export const TextInput = ({
@@ -13,7 +13,7 @@ export const TextInput = ({
   label,
   error,
   ...rest
-}: PropsType) => {
+}: InputHTMLAttributes<HTMLInputElement> & PropsType) => {
   const inputId = randomID();
 
   return (
