@@ -6,6 +6,8 @@ import {TextInput} from "../../components/TextInput/TextInput";
 import * as S from "./Login.style";
 import {validate} from "./Login.validator";
 import {formErrorHandler} from "../../utils";
+import {useLoginMutation} from "../../api/mutations/login";
+import {ButtonLoader} from "../../components/Button/ButtonLoader";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +15,8 @@ export const Login = () => {
 
   const [formErrors, setFormErrors] = useState({email: "", password: ""});
   const [reqError, setReqError] = useState("");
+
+  const {mutate, isLoading, isError} = useLoginMutation();
 
   const resetErrors = (emptyErr: {email?: string; password?: string}) => {
     setFormErrors({...formErrors, ...emptyErr});
@@ -26,6 +30,19 @@ export const Login = () => {
 
     if (validateForm.error) {
       setFormErrors({...formErrors, ...formErrorHandler(validateForm.error)});
+    } else {
+      mutate(
+        {
+          email,
+          password,
+        },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+          },
+          onError: (error) => setReqError(error.message),
+        }
+      );
     }
   };
 
@@ -35,10 +52,12 @@ export const Login = () => {
         <S.HeaderText>Login</S.HeaderText>
 
         <form onSubmit={submitAction}>
-          {reqError.length > 0 && (
-            <Alert type="error" float={false} content={reqError} />
-          )}
-
+          <Alert
+            type="error"
+            float={false}
+            content={reqError}
+            show={isError && reqError.length ? true : false}
+          />
           <TextInput
             type="email"
             placeholder="Enter your email address"
@@ -48,8 +67,8 @@ export const Login = () => {
             required={true}
             error={formErrors.email}
             onKeyDown={() => resetErrors({email: ""})}
+            disabled={isLoading}
           />
-
           <TextInput
             type="password"
             placeholder="Enter your password"
@@ -59,9 +78,11 @@ export const Login = () => {
             required={true}
             error={formErrors.password}
             onKeyDown={() => resetErrors({password: ""})}
+            disabled={isLoading}
           />
-
-          <Button type="submit">Login</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? <ButtonLoader /> : "Login"}
+          </Button>
         </form>
       </Card>
     </S.Container>
